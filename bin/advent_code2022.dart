@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 void main(List<String> arguments) {
   File('input.txt').readAsString().then((String data) {
@@ -11,9 +10,10 @@ void main(List<String> arguments) {
           (e) => stringSum(e.split(r'\n')),
         )
         .toList();
+    // final mx = result.reduce(max);
+    // print('max is : $mx & its index is: ${result.indexOf(mx)}');
+    result.sort((a, b) => b.compareTo(a));
     print(result);
-    final mx = result.reduce(max);
-    print('max is : $mx & its index is: ${result.indexOf(mx)}');
   });
 }
 
