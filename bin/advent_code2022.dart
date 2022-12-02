@@ -20,16 +20,14 @@ int score(String data) {
   String yourMove = data.split(r' ')[1];
   int choicePoints = points[yourMove] ?? 0;
   final result = opponentMove.match(yourMove);
-  print(
-      'Match($opponentMove $yourMove): $choicePoints + $result = ${choicePoints + result}');
   choicePoints += result;
   return choicePoints;
 }
 
 const points = {
-  'X': 1,
-  'Y': 2,
-  'Z': 3,
+  'X': 0,
+  'Y': 3,
+  'Z': 6,
 };
 
 extension RockPaperScissor on String {
@@ -38,23 +36,23 @@ extension RockPaperScissor on String {
 
     // rock
     if (opp == 'A') {
-      if (me == 'X') return 3; // rock - draw
-      if (me == 'Y') return 6; // paper - won
-      if (me == 'Z') return 0; // scissor - loos
+      if (me == 'X') return 3; // loose - scissor
+      if (me == 'Y') return 1; // draw - rock
+      if (me == 'Z') return 2; // win - paper
     }
 
     // paper
     if (opp == 'B') {
-      if (me == 'X') return 0; // rock - loose
-      if (me == 'Y') return 3; // paper - draw
-      if (me == 'Z') return 6; // scissor - won
+      if (me == 'X') return 1; // loose - rock
+      if (me == 'Y') return 2; // draw - paper
+      if (me == 'Z') return 3; // win - scissor
     }
 
     // scissor
     if (opp == 'C') {
-      if (me == 'X') return 6; // rock - won
-      if (me == 'Y') return 0; // paper - loose
-      if (me == 'Z') return 3; // scissor - draw
+      if (me == 'X') return 2; // loose - paper
+      if (me == 'Y') return 3; // draw - scissor
+      if (me == 'Z') return 1; // win - rock
     }
     return 0;
   }
