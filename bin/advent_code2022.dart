@@ -6,10 +6,11 @@ void main(List<String> arguments) {
     final jsonData = json.encode(data).replaceAll(r'"', '');
     final allRucksack = jsonData.split(r'\n');
     int totalScore = 0;
-    for (final ruck in allRucksack) {
+    for (int i = 2; i < allRucksack.length; i += 3) {
       final res = priority(
-        ruck.substring(0, ruck.length ~/ 2),
-        ruck.substring(ruck.length ~/ 2),
+        allRucksack[i - 2],
+        allRucksack[i - 1],
+        allRucksack[i],
       );
       totalScore += res;
     }
@@ -17,13 +18,16 @@ void main(List<String> arguments) {
   });
 }
 
-int priority(String data1, String data2) {
+int priority(String data1, String data2, String data3) {
   final data1Ascii = getMyAscii(data1.runes);
   final data2Ascii = getMyAscii(data2.runes);
+  final data3Ascii = getMyAscii(data3.runes);
 
   for (final i in data1Ascii) {
     if (data2Ascii.contains(i)) {
-      return i;
+      if (data3Ascii.contains(i)) {
+        return i;
+      }
     }
   }
   return 0;
