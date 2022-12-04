@@ -4,39 +4,32 @@ import 'dart:io';
 void main(List<String> arguments) {
   File('input.txt').readAsString().then((String data) {
     final jsonData = json.encode(data).replaceAll(r'"', '');
-    final allRucksack = jsonData.split(r'\n');
+    final allPairs = jsonData.split(r'\n');
     int totalScore = 0;
-    for (int i = 2; i < allRucksack.length; i += 3) {
-      final res = priority(
-        allRucksack[i - 2],
-        allRucksack[i - 1],
-        allRucksack[i],
-      );
-      totalScore += res;
+    for (int i = 0; i < allPairs.length; i++) {
+      if (isOverlapping(allPairs[i])) {
+        totalScore += 1;
+      }
     }
     print(totalScore);
   });
 }
 
-int priority(String data1, String data2, String data3) {
-  final data1Ascii = getMyAscii(data1.runes);
-  final data2Ascii = getMyAscii(data2.runes);
-  final data3Ascii = getMyAscii(data3.runes);
+bool isOverlapping(String data) {
+  final firstPair = parsePair(data.split(',')[0]);
+  final secondPair = parsePair(data.split(',')[1]);
 
-  for (final i in data1Ascii) {
-    if (data2Ascii.contains(i)) {
-      if (data3Ascii.contains(i)) {
-        return i;
-      }
-    }
-  }
-  return 0;
+  // -- PART 1 --
+  // return (firstPair.first <= secondPair.first &&
+  //         firstPair.last >= secondPair.last) ||
+  //     (secondPair.first <= firstPair.first &&
+  //         secondPair.last >= firstPair.last);
+
+  // -- PART 2 --
+  return firstPair.last >= secondPair.first &&
+      firstPair.first <= secondPair.last;
 }
 
-List<int> getMyAscii(Runes runes) {
-  return runes.map((e) {
-    final x = e - 96;
-    if (x > 0) return x;
-    return x + 58;
-  }).toList();
+Iterable<int> parsePair(String data) {
+  return [data.split('-')[0], data.split('-')[1]].map(int.parse);
 }
